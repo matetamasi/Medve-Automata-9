@@ -5,15 +5,9 @@
 }
 #let maut = (..it, style: (:), radius: 0.45, curve: 0) => {
   show "Start":""
-  style.insert("transition", (curve: curve))
+  style.insert("transition", (curve: curve, label: (dist: 0.25)))
   style.insert("state", (radius: radius))
   automaton(..it, style: style)
-}
-#let n = 0
-#let num = {
-  n = n + 1
-  numbering("a)", n)
-  h(0.1cm)
 }
 
 #let parallel-layout = layout.custom.with(
@@ -36,7 +30,24 @@
   }
 )
 
-//#let fv(lista) = {grid(..lista.enumerate().map((c, i) => enum.item(i, c)))}
+#let trap-layout = layout.custom.with(
+  positions: (ctx, radii, states) => {
+    let xinc = 1.5
+    let x = xinc
+    let pos = (:)
+    for (name, r) in radii {
+      if (name == "N") {
+        pos.insert(name, (x/2, -1.7))
+      }
+      else {
+        pos.insert(name, (x, 0))
+        x += xinc
+      }
+    }
+    return pos
+  }
+)
+
 #let subtasks(list) = {
   let keylist = list.enumerate()
   set enum(numbering: "a)")
@@ -51,7 +62,6 @@
   })
 }
     
-  //[#numbering("a)", n) #h(0.1cm) #let n=2]
 #let important = text.with(red)
 = 1. Foglalkozás
 
@@ -164,11 +174,49 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
           A1: (A0: "a", A1:"b"),
           B1: (B0: "b", B1:"a"),
         ),
+        final: "SA0B0",
         layout: parallel-layout,
         curve: 0.35,
         style: (S-B0: (curve: -.35)),
       )
     ],
-    [szavak, melyekben minden \"a\" után \"bb\" következik],
-    [szavak, melyekben a \"aa\" részszó pontosan egyszer szerepel]
+    [szavak, melyekben minden \"a\" után \"bb\" következik
+      #maut(
+        (
+          S: (S: "b", A: "a"),
+          A: (B: "b", N: "a"),
+          B: (S: "b", N: "a"),
+          N: (N: "a,b"),
+        ),
+        layout: trap-layout,
+        final: "S",
+        style: (
+          B-S: (curve: -.85),
+          B-N: (label: (pos: 0.7)),
+          S-S: (curve: .5, anchor: bottom),
+          A-N: (label: (angle: 0deg, pos: 0.45)),
+          N-N: (curve: .5, anchor: left),
+        ),
+      )
+    ],
+    [szavak, melyekben a \"aa\" részszó pontosan egyszer szerepel
+      #maut(
+        (
+          S: (A: "a", S: "b"),
+          A: (S: "b", B: "a"),
+          B: (C: "b", N: "a"),
+          C: (C: "b", D: "a"),
+          D: (C: "b", N: "a"),
+          N: (N: "a,b")
+        ),
+        final: "BCD",
+        curve: .7,
+        style: (
+          A-S: (curve: .35),
+          S-A: (curve: .35),
+          B-N: (curve: -1.80),
+          C-C: (anchor: bottom, curve: .4)
+        ),
+      )
+    ]
 ))
