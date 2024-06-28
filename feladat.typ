@@ -6,8 +6,12 @@
 
 #let maut = (..it, style: (:), radius: 0.45, curve: 0) => {
   show "Start":""
-  style.insert("transition", (curve: curve, label: (dist: 0.25)))
-  style.insert("state", (radius: radius))
+  if not style.keys().contains("transition") {
+    style.insert("transition", (curve: curve, label: (dist: 0.25)))
+  }
+  if not style.keys().contains("state") {
+    style.insert("state", (radius: radius))
+  }
   automaton(..it, style: style)
 }
 
@@ -83,14 +87,13 @@
   }
 )
 
-#let trap-layout = layout.custom.with(
+#let trap-layout(h: 1.7, xinc: 1.5) = layout.custom.with(
   positions: (ctx, radii, states) => {
-    let xinc = 1.5
     let x = xinc
     let pos = (:)
     for (name, r) in radii {
       if (name == "N") {
-        pos.insert(name, (x/2, -1.7))
+        pos.insert(name, (x/2, -h))
       }
       else {
         pos.insert(name, (x, 0))
@@ -105,12 +108,21 @@
   let keylist = list.enumerate()
   set enum(numbering: "a)")
   align(center, {
-  grid(
-    columns: c,
-    row-gutter: 0.4cm,
-    column-gutter: cg,
-    align: left,
-    ..keylist.map(a => enum.item(a.at(0)+1, a.at(1)))
+    grid(
+      columns: c,
+      row-gutter: 0.4cm,
+      column-gutter: cg,
+      align: left,
+      ..keylist.map(a => {
+        if a.at(1).fields().keys().contains("children") and a.at(1).children.first().fields().keys().contains("text") and a.at(1).children.first().text.first() == "*" {
+
+            set enum(numbering: (n) =>  str.from-unicode("a".to-unicode() + n - 1) +"*)")
+        [#show regex("^\*$"): ""; #enum.item(a.at(0)+1, a.at(1))]
+          } else {
+            set enum(numbering: "a)")
+            enum.item(a.at(0)+1, a.at(1))
+          }
+      })
     )
   })
 }
@@ -162,9 +174,10 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
       style: (
         S1-S1: (anchor: bottom),
         S1-B: (curve: .2),
-        B-S1: (curve: .2, label: (pos: .2)),
+        B-S1: (curve: .2, label: (pos: .4)),
         S1: (label: "A"),
-        N: (label: "C")
+        N: (label: "C"),
+        transition: (curve: 0, label:(dist:.18))
       )
     )],
     [#maut(
@@ -179,6 +192,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
       final: "B1",
       layout: n-parallel-layout(),
       style: (
+        transition: (curve: 0, label:(dist:.19)),
         A1-B1:(curve: .2, label: (angle: 0deg)),
         B1-A1:(curve: .2, label: (angle: 0deg)),
         A2-B2:(curve: .2, label: (angle: 0deg)),
@@ -186,7 +200,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
         A3-B3:(curve: .2, label: (angle: 0deg)),
         B3-A3:(curve: .2, label: (angle: 0deg)),
         A3-A1:(curve: -1),
-        B3-B1:(curve: 1),
+        B3-B1:(curve: 1, label: (dist:-.19)),
         A1:(label: "A"),
         A2:(label: "B"),
         A3:(label: "C"),
@@ -203,16 +217,91 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
     [szavak, melyek első és utolsó betűje megegyezik],
     [$a$ és $b$ betűket felváltva tartalmazó szavak (mint pl: $a b a b a b a$ vagy $b a b a b$)],
     [szavak, melyekben minden $a$ után $b b$ következik],
-    [szavak, melyekben minden két $c$ közt van $a$ és $b$, $Sigma = {a,b,c}$]
+    [\*szavak, melyekben minden két $c$ közt van $a$ és $b$, $Sigma = {a,b,c}$],
+    [\* $a^n b^n$ (valahány $a$, majd *ugyanannyi* $b$)]
   ))
 + Adj determinisztikus véges automatát az oszthatósági szabályokra:
   #subtasks((
     [5-tel osztható számok, $Sigma = {0,1,2,...,9}$],
     [3-mal osztható számok, $Sigma = {0,1,2,...,9}$],
     [2-vel osztható bináris számok, $Sigma = {0,1}$],
-    [3-mal osztható bináris számok, $Sigma = {0,1}$],
+    [\*3-mal osztható bináris számok, $Sigma = {0,1}$],
   ), cg:1cm)
 
 #pagebreak(weak: true)
 
-= Nemdeterminisztikus, hiányos véges automaták
+=  Hiányos, nemdeterminisztikus véges automaták
+#set text(hyphenate: true)
+Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$. Használd ki a nemdeterminisztikusságot, törekedj arra, hogy minél kevesebb állapot felhasználásával adj helyes megodást!
+#set text(hyphenate: false)
++ Milyen nyelvet ismernek fel az automaták?
+  #subtasks((
+    [#maut((S:(S:"a")))],
+    [#maut(
+      (
+        S:(A:"b"),
+        A:(B:"a"),
+        B:(C:"b"),
+        C:(D:"a"),
+        D:()
+      ),
+      final: "CD"
+    )],
+    [#maut((S:(S:"b", A:"a"), A:(A:"b")))],
+    [#maut(
+      (
+        S:(S:"a", A:"b"),
+        A:(S:"a")
+      ),
+      final: "S",
+      curve: .4
+    )],
+  ), cg : 1cm)
+
++ Milyen nyelvet ismernek fel az automaták?
+  #subtasks((
+    [#maut(
+      (
+        S: (S:"a,b", A0:"a", B0:"b"),
+        A0: (A1:"a"),
+        B0: (B1:"b"),
+        A1: (A1: "a,b"),
+        B1: (B1: "a,b")
+      ),
+      final: "A1B1",
+      layout: n-parallel-layout(),
+      style: (
+        A0: (label: "A"),
+        B0: (label: "B"),
+        A1: (label: "C"),
+        B1: (label: "D"),
+      )
+    )],
+    [\* #maut(
+        (
+          S: (S:"a", A:"a,b", N:"a,c"),
+          A: (A:"a,c", S:"b", N:"b"),
+          N: (N:"a,b", S:"c", A:"c")
+        ),
+        final: "AN",
+        layout: trap-layout(h: 2.5, xinc: 3.5),
+        style: (
+          transition: (curve: .25, label:(dist:.2)),
+          S-S: (curve:.35),
+          A-A: (curve:.35),
+          N-N: (curve:.35, anchor: bottom),
+          N: (label: "B")
+        )
+    )]
+  ), cg: 1cm)
++ Ajd nemdeterminisztikus véges automatát az alábbi nyelvekre:
+#subtasks((
+  [szavak, melyekben szerepel az $a b a a b$ részszó],
+  [szavak, melyekben van két olyan $b$ betű, melyek közt néggyel osztható számú $a$ van],
+  [szavak, melyekben nem szerepel az $a b c$ részszó, $Sigma = {a,b,c}$],
+  [olyan betűre végződőik, ami korábban nem szerepelt a szóban, $Sigma = {a,b,c}$],
+  [szavak, melyekben legalább az egyik betű nem szerepel, $Sigma = {a,b,c,d}$],
+  [szavak, melyekben szerepel az $a a a$ és a $b b b$ részszó is],
+  [\*palindromok (tehát minden szó, ami balról és jobbról olvasva ugyanaz)],
+  [\*szavak, melyekben nem szerepel sem az $a a a$, sem a $b b b$ részszó],
+), cg: .4cm)
