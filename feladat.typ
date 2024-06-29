@@ -231,9 +231,6 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 #pagebreak(weak: true)
 
 =  Hiányos, nemdeterminisztikus véges automaták
-#set text(hyphenate: true)
-Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$. Használd ki a nemdeterminisztikusságot, törekedj arra, hogy minél kevesebb állapot felhasználásával adj helyes megodást!
-#set text(hyphenate: false)
 + Milyen nyelvet ismernek fel az automaták?
   #subtasks((
     [#maut((S:(S:"a")))],
@@ -293,15 +290,37 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$. Használd ki
           N: (label: "B")
         )
     )]
-  ), cg: 1cm)
-+ Ajd nemdeterminisztikus véges automatát az alábbi nyelvekre:
-#subtasks((
-  [szavak, melyekben szerepel az $a b a a b$ részszó],
-  [szavak, melyekben van két olyan $b$ betű, melyek közt néggyel osztható számú $a$ van],
-  [szavak, melyekben nem szerepel az $a b c$ részszó, $Sigma = {a,b,c}$],
-  [olyan betűre végződőik, ami korábban nem szerepelt a szóban, $Sigma = {a,b,c}$],
-  [szavak, melyekben legalább az egyik betű nem szerepel, $Sigma = {a,b,c,d}$],
-  [szavak, melyekben szerepel az $a a a$ és a $b b b$ részszó is],
-  [\*palindromok (tehát minden szó, ami balról és jobbról olvasva ugyanaz)],
-  [\*szavak, melyekben nem szerepel sem az $a a a$, sem a $b b b$ részszó],
-), cg: .4cm)
+  ), cg: 2cm)
+#set text(hyphenate: true)
++ Adj nemdeterminisztikus véges automatát az alábbi nyelvekre! Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$. Használd ki a nemdeterminisztikusságot, törekedj arra, hogy minél kevesebb állapot felhasználásával adj helyes megodást!
+  #subtasks((
+    [szavak, melyekben szerepel az $a b a a b$ részszó],
+    [szavak, melyekben van két olyan $b$ betű, melyek közt néggyel osztható számú $a$ van],
+    [szavak, melyekben nem szerepel az $a b c$ részszó, $Sigma = {a,b,c}$],
+    [olyan betűre végződőik, ami korábban nem szerepelt a szóban, $Sigma = {a,b,c}$],
+    [szavak, melyekben legalább az egyik betű nem szerepel, $Sigma = {a,b,c,d}$],
+    [szavak, melyekben szerepel az $a a a$ és a $b b b$ részszó is],
+    [\*palindromok (tehát minden szó, ami balról és jobbról olvasva ugyanaz)],
+    [\*szavak, melyekben nem szerepel sem az $a a a$, sem a $b b b$ részszó],
+  ), cg: .4cm)
+
+#pagebreak(weak: true)
+
+=  Veremautomaták
+A veremautomaták esetében a determinisztikus és nemdeterminisztikus verziók nem azonos erősségűek. A nemdeterminisztikus változattal fel tudunk ismerni olyan nyelveket, amiket a determinisztikussal nem lehet. Veremautomaták esetén ezért mindig nemdeterminisztikussal szokás dolgozni, tegyél te is így!
+
++ Adj veremautomatát az alábbi nyelvekre! Ahol a feladat mást nem mond, a megadott nyelvek ábécéje $Sigma = {a,b}$, a veremben viszont ezeken kívül bármilyen egyéb ábécét használhatsz.
+  #subtasks(cg: .4cm, c: 3,(
+    [$a^n b^n$],
+    [$a^n b^m a^n$],
+    [első és utolsó betű megegyezik],
+    [$a^n b^m$, ahol $m >= n$],
+    [ugyanannyi $a$, mint $b$],
+    [$a^n b^m$, ahol $m = 2n$],
+    [palindromok],
+    [$a^n b^n c^m d^m$, $Sigma={a,b,c,d}$],
+    [$a^n b^m c^m d^n$, $Sigma={a,b,c,d}$],
+    [\*$a^n b^m$, $2n >= m >= n$],
+    [\*$a^n b^n c^n$, $Sigma = {a,b,c}$],
+    [\*$a^l b^m c^n$, ahol $m = l+n$, \ $Sigma = {a,b,c}$]
+  ))
