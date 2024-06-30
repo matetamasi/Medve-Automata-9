@@ -231,7 +231,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 #pagebreak(weak: true)
 
 =  Hiányos, nemdeterminisztikus véges automaták
-+ Milyen nyelvet ismernek fel az automaták?
++ Milyen nyelvet fogadnak el az alábbi hiányos automaták?
   #subtasks((
     [#maut((S:(S:"a")))],
     [#maut(
@@ -255,7 +255,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
     )],
   ), cg : 1cm)
 
-+ Milyen nyelvet ismernek fel az automaták?
++ Milyen nyelvet fogadnak el az alábbi nemdeterminisztikus automaták?
   #subtasks((
     [#maut(
       (
