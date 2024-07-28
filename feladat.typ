@@ -128,25 +128,26 @@
 }
     
 #let important = text.with(red)
+#set page(margin: 1.5cm)
 = Determinisztikus véges automaták
 Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 + Adj determinisztikus véges automatát a következő nyelvekre:
   #subtasks((
-    [3 betűből álló szavak],
+    [pontosan 3 betűből álló szavak],
     [$a$ betűvel kezdődő szavak],
     [csak $a$ betűt tartalmazó szavak],
     [$b$ betűre végződő szavak],
-    [3 $a$ betűt tartalmazó szavak],
+    [pontosan 3 $a$ betűt tartalmazó szavak],
     [$a$ betűt nem tartalmazó szavak, $Sigma = {a,b,c}$],
+    [legalább 3 darab $a$ betűt tartalmazó szavak],
+    [legalább 3 darab $a$ betűt, *és* legalább 3 darab $b$ betűt tartalmazó szavak]
   ), cg: 1.8cm)
-+ Adj meg egy determinisztikus véges automatát, mely azokat a szavakat fogadja el, amelyekben szerpel legalább 3 darab $a$ betű.
-
-+ Milyen nyelvet fogadnak el az alábbi automaták?
++ Milyen nyelvet fogadnak el az alábbi automaták? (Az 1. feladat részfeladataihoz hasonlóan próbálj meg megfogalmazni egy-egy szabályt, mely pontosan leírja, hogy milyen szavakat fogadnak el az egyes automaták.)
   #subtasks((
     [#maut(
       (
         S: (S:"a", A:"b"),
-        A: (S:"b", A: "a")
+        A: (S:"b", A:"a")
       ),
       curve: .3
     )],
@@ -231,6 +232,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 #pagebreak(weak: true)
 
 =  Hiányos, nemdeterminisztikus véges automaták
+Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 + Milyen nyelvet fogadnak el az alábbi hiányos automaták?
   #subtasks((
     [#maut((S:(S:"a")))],
@@ -274,7 +276,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
         B1: (label: "D"),
       )
     )],
-    [\* #maut(
+    [\* $Sigma = {a,b,c}$ #maut(
         (
           S: (S:"a", A:"a,b", N:"a,c"),
           A: (A:"a,c", S:"b", N:"b"),
@@ -309,7 +311,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 =  Veremautomaták
 A veremautomaták esetében a determinisztikus és nemdeterminisztikus verziók nem azonos erősségűek. A nemdeterminisztikus változattal fel tudunk ismerni olyan nyelveket, amiket a determinisztikussal nem lehet. Veremautomaták esetén ezért mindig nemdeterminisztikussal szokás dolgozni, tegyél te is így!
 
-+ Adj veremautomatát az alábbi nyelvekre! Ahol a feladat mást nem mond, a megadott nyelvek ábécéje $Sigma = {a,b}$, a veremben viszont ezeken kívül bármilyen egyéb ábécét használhatsz.
++ Adj veremautomatát az alábbi nyelvekre! Ahol a feladat mást nem mond, a megadott nyelvek ábécéje $Sigma = {a,b}$, a veremben viszont ezen kívül bármilyen egyéb ábécét használhatsz.
   #subtasks(cg: .4cm, c: 3,(
     [$a^n b^n$],
     [$a^n b^m a^n$],
