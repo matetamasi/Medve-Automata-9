@@ -315,6 +315,24 @@ A veremautomaták esetében a determinisztikus és nemdeterminisztikus verziók 
   #subtasks((
     [#maut(
       (
+        A: (B:"a, ε→a
+b, ε→b"),
+        B:(B:"a, ε→ε
+b, ε→ε", C:"a, a→ε
+b, b→ε"),
+        C:()
+        
+      ),
+    style:
+      (
+        A-B:(label:(dist:-0.5)),
+        B-B:(label:(dist:0.65)),
+        B-C:(label:(dist:-0.5)),
+      ),
+    layout: trap-layout(xinc:2.2)
+    )],
+    [#maut(
+      (
         A: (A:"a, ε→ε", B:"b, a→ε"),
         B: (B:"b, a→ε", C:"ε, Z→Z"),
         C: ()
@@ -327,11 +345,11 @@ A veremautomaták esetében a determinisztikus és nemdeterminisztikus verziók 
     [$a^n b^m a^n$],
     [első és utolsó betű megegyezik],
     [$a^n b^m$, ahol $m >= n$],
-    [ugyanannyi $a$, mint $b$],
     [$a^n b^m$, ahol $m = 2n$],
     [palindromok],
     [$a^n b^n c^m d^m$, $Sigma={a,b,c,d}$],
     [$a^n b^m c^m d^n$, $Sigma={a,b,c,d}$],
+    [\*$(a b)^n a^m (a b)^n$],
     [\*$a^n b^m$, $2n >= m >= n$],
     [\*$a^n b^n c^n$, $Sigma = {a,b,c}$],
     [\*$a^l b^m c^n$, ahol $m = l+n$, \ $Sigma = {a,b,c}$]
