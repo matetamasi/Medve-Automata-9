@@ -299,7 +299,7 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
     [szavak, melyekben szerepel az $a b a a b$ részszó],
     [szavak, melyekben van két olyan $b$ betű, melyek közt néggyel osztható számú $a$ van],
     [szavak, melyekben nem szerepel az $a b c$ részszó, $Sigma = {a,b,c}$],
-    [olyan betűre végződőik, ami korábban nem szerepelt a szóban, $Sigma = {a,b,c}$],
+    [olyan betűre végződik, ami korábban nem szerepelt a szóban, $Sigma = {a,b,c}$],
     [szavak, melyekben legalább az egyik betű nem szerepel, $Sigma = {a,b,c,d}$],
     [szavak, melyekben szerepel az $a a a$ és a $b b b$ részszó is],
     [\*palindromok (tehát minden szó, ami balról és jobbról olvasva ugyanaz)],
@@ -311,9 +311,19 @@ Ahol a feladat mást nem mond, az ábécé legyen $Sigma = {a, b}$.
 =  Veremautomaták
 A veremautomaták esetében a determinisztikus és nemdeterminisztikus verziók nem azonos erősségűek. A nemdeterminisztikus változattal fel tudunk ismerni olyan nyelveket, amiket a determinisztikussal nem lehet. Veremautomaták esetén ezért mindig nemdeterminisztikussal szokás dolgozni, tegyél te is így!
 
++ Milyen nyelvet fogadnak el az alábbi nemdeterminisztikus automaták?
+  #subtasks((
+    [#maut(
+      (
+        A: (A:"a, ε→ε", B:"b, a→ε"),
+        B: (B:"b, a→ε", C:"ε, Z→Z"),
+        C: ()
+      ),
+    layout: trap-layout(xinc:2.2)
+    )],
+  ), cg: 2cm)
 + Adj veremautomatát az alábbi nyelvekre! Ahol a feladat mást nem mond, a megadott nyelvek ábécéje $Sigma = {a,b}$, a veremben viszont ezen kívül bármilyen egyéb ábécét használhatsz.
   #subtasks(cg: .4cm, c: 3,(
-    [$a^n b^n$],
     [$a^n b^m a^n$],
     [első és utolsó betű megegyezik],
     [$a^n b^m$, ahol $m >= n$],
